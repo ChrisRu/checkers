@@ -8,7 +8,3 @@ function shuffle(array) {
 		[array[i - 1], array[j]] = [array[j], array[i - 1]]
 	}
 }
-
-function log(msg) {
-	document.body.innerHTML += "<p>${msg}</p>";
-}
