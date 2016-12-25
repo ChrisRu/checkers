@@ -15,13 +15,39 @@ class Board {
 			this.rows.push([]);
 			for (let j = 0; j < cols; j++) {
 				let place;
-				if (i < 4) {
-					place = new Place(i,j,1)
-				} else if (i > 5) {
-					place = new Place(i,j,2)
+				let type;
+
+				if (i % 2) {
+					if (j % 2 === 1) {
+						if (i < 4) {
+							type = 1;
+						}
+						if (i > 5) {
+							type = 2;
+						}
+					}
 				} else {
-					place = new Place(i,j,0)
+					if (j % 2 === 0) {
+						if (i < 4) {
+							type = 1;
+						}
+						if (i > 5) {
+							type = 2;
+						}
+					}
 				}
+
+				switch(type) {
+					case 1:
+						place = new Place(i, j, 1);
+						break;
+					case 2:
+						place = new Place(i, j, 2);
+						break;
+					default:
+						place = new Place(i, j, 0)
+				}
+				
 				this.rows[i].push(place);
 			}
 		}
@@ -48,6 +74,15 @@ class Board {
 			for (let j = 0; j < this.rows[i].length; j++) {
 				let place = document.createElement("div");
 				place.classList.add("place");
+				if (i % 2) {
+					if (j % 2 === 1) {
+						place.classList.add("dark")
+					}
+				} else {
+					if (j % 2 === 0) {
+						place.classList.add("dark");
+					}
+				}
 
 				if (this.rows[i][j].type === 1) {
 					place.appendChild(this.createPiece("black"));

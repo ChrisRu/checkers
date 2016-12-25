@@ -9,21 +9,16 @@ p {
 .board {
 	background: #D3A361;
 }
-.row {
-	&:nth-child(odd) {
-		margin-left: 3em;
-		.place:last-child {
-			margin-right: 0;
-		}
-	}
-}
+
 .place {
 	width: 3em;
 	height: 3em;
-	margin-right: 3em;
 	float: left;
-	background: saddlebrown;
+	background: #D3A361;
 	position: relative;
+	&.dark {
+		background: saddlebrown;
+	}
 }
 
 .piece {
