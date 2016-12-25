@@ -1,9 +1,7 @@
-# Template
-Website template with gulp and webpack bundling.
+# Checkers
+Checkers built in HTML5
 
-## Features
-- Production and development gulp tasks
-- Production files go to a new dist folder
-- Live developing with browser-sync
-- SASS compiling + minifying
-- ES6 bundling with webpack
+## Run
+- Install dependencies `npm install` or `yarn install`
+- Run `gulp dev` for a live development version
+- Run `gulp prod` for a production version
