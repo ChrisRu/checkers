@@ -3,6 +3,14 @@ import { $ } from "./helpers.js";
 const rows = 10;
 const cols = 10;
 
+function isOddSquare(i, j) {
+	if (i % 2) {
+		return j % 2
+	} else {
+		return !(j % 2);
+	}
+}
+
 class Board {
 	constructor(parent) {
 		this.parent = parent;
@@ -17,23 +25,12 @@ class Board {
 				let place;
 				let type;
 
-				if (i % 2) {
-					if (j % 2 === 1) {
-						if (i < 4) {
-							type = 1;
-						}
-						if (i > 5) {
-							type = 2;
-						}
+				if (isOddSquare(i, j)) {
+					if (i < 4) {
+						type = 1;
 					}
-				} else {
-					if (j % 2 === 0) {
-						if (i < 4) {
-							type = 1;
-						}
-						if (i > 5) {
-							type = 2;
-						}
+					if (i > 5) {
+						type = 2;
 					}
 				}
 
@@ -74,14 +71,8 @@ class Board {
 			for (let j = 0; j < this.rows[i].length; j++) {
 				let place = document.createElement("div");
 				place.classList.add("place");
-				if (i % 2) {
-					if (j % 2 === 1) {
-						place.classList.add("dark")
-					}
-				} else {
-					if (j % 2 === 0) {
-						place.classList.add("dark");
-					}
+				if (isOddSquare(i, j)) {
+					place.classList.add("dark");
 				}
 
 				if (this.rows[i][j].type === 1) {
