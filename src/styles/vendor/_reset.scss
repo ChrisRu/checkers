@@ -1,0 +1,32 @@
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, pre, a, abbr, code, img, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, figure, figcaption, footer, header {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+article, aside, figcaption, figure, footer, header, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+h1 { margin: 1em 0; font-size: 2em; }
+h2 { margin: 0.75em 0; font-size: 1.5em; }
+h3 { margin: 0.585em 0; font-size: 1.17em; }
+h4 { margin: 0.56em 0; font-size: 1.12em; }
+h5 { margin: 0.415em 0; font-size: 0.83em; }
+h6 { margin: 0.375em 0; font-size: 0.75em; }

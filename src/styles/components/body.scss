@@ -1,0 +1,58 @@
+body {
+	font-family: sans-serif;
+	font-size: 1.2em;
+}
+p {
+	margin: 0.6em 0.3em;
+}
+
+.board {
+	background: #D3A361;
+}
+.row {
+	&:nth-child(odd) {
+		margin-left: 3em;
+		.place:last-child {
+			margin-right: 0;
+		}
+	}
+}
+.place {
+	width: 3em;
+	height: 3em;
+	margin-right: 3em;
+	float: left;
+	background: saddlebrown;
+	position: relative;
+}
+
+.piece {
+	border-radius: 50%;
+	width: 90%;
+	height: 90%;
+	position: absolute;
+	top: 5%;
+	left: 5%;
+	&:after {
+		position: absolute;
+		top: 10%;
+		left: 10%;
+		width: 60%;
+		height: 60%;
+		border-radius: 50%;
+		border: 5px solid;
+		content: '';
+	}
+	&.black {
+		background: black;
+		&:after {
+			border-color: rgba(255,255,255,0.1);
+		}
+	}
+	&.white {
+		background: white;
+		&:after {
+			border-color: rgba(0,0,0,0.1);
+		}
+	}
+}
