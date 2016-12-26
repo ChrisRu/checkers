@@ -8,3 +8,11 @@ export function shuffle(array) {
 		[array[i - 1], array[j]] = [array[j], array[i - 1]]
 	}
 }
+
+export function isOddSquare(i, j) {
+	if (i % 2) {
+		return !(j % 2);
+	} else {
+		return j % 2;
+	}
+}

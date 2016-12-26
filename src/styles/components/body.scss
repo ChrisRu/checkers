@@ -1,3 +1,5 @@
+$board-size: 4em;
+
 body {
 	font-family: sans-serif;
 	font-size: 1.2em;
@@ -8,11 +10,16 @@ p {
 
 .board {
 	background: #D3A361;
+	margin: $board-size auto 0;
+	width: $board-size * 10;
 }
-
+.selected {
+	z-index: 1000;
+	background: red;
+}
 .place {
-	width: 3em;
-	height: 3em;
+	width: $board-size;
+	height: $board-size;
 	float: left;
 	background: #D3A361;
 	position: relative;
@@ -35,7 +42,7 @@ p {
 		width: 60%;
 		height: 60%;
 		border-radius: 50%;
-		border: 5px solid;
+		border: ($board-size / 10) solid;
 		content: '';
 	}
 	&.black {

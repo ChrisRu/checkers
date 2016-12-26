@@ -49,7 +49,9 @@ gulp.task('webpack', function() {
 					}
 				]
 			}
-		}))
+		})).on('error', function() {
+			this.emit('end');
+		})
 		.pipe(gulp.dest('dist/scripts/'))
 		.pipe(browserSync.stream());
 });
