@@ -11,8 +11,8 @@ export function shuffle(array) {
 
 export function isOddSquare(i, j) {
 	if (i % 2) {
-		return !(j % 2);
+		return !(j % 2)
 	} else {
-		return j % 2;
+		return j % 2
 	}
 }

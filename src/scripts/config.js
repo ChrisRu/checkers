@@ -1,4 +1,4 @@
 export const config = {
-	"rows": 10,
-	"cols": 10
+	rows: 10,
+	cols: 10
 }
