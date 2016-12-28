@@ -1,71 +1,82 @@
 import { config } from './config.js'
-import { isOddSquare } from './helpers.js'
-import Place from './Place.js'
+import Piece from './Piece.js'
 
 export default class Board {
 	constructor(parent) {
 		this.parent = parent
-		this.initPieces()
+		this.createGrid()
 	}
 
 	initPieces() {
-		this.rows = []
-		for (let i = 0; i < config.rows; i++) {
-			this.rows.push([])
-			for (let j = 0; j < config.cols; j++) {
-				let place
-				let type
-
-				if (isOddSquare(i, j)) {
-					if (i < 4) {
-						type = 1
-					}
-					if (i > 5) {
-						type = 2
-					}
+		for (let i = 0; i < config.size * 2; i++) {
+			for (let j = 0; j < config.size; j++) {
+				if (i < config.size - 1) {
+					this.rows[i][j] = new Piece(i, j, 'white', 1)
 				}
-
-				switch(type) {
-					case 1:
-						place = new Place(i, j, 1)
-						break
-					case 2:
-						place = new Place(i, j, 2)
-						break
-					default:
-						place = new Place(i, j, 0)
+				if (i > config.size) {
+					this.rows[i][j] = new Piece(i, j, 'black', 1)
 				}
-				
-				this.rows[i].push(place)
 			}
 		}
 	}
 
-	render() {
-		this.parent.innerHTML = ''
+	createGrid() {
+		this.rows = []
+		for (let i = 0; i < config.size * 2; i++) {
+			this.rows.push([])
+			for (let j = 0; j < config.size; j++) {
+				this.rows[i].push(undefined)
+			}
+		}
+		this.initPieces()
+	}
+
+	isOddSquare(row, col) {
+		if (row % 2) {
+			return !(col % 2)
+		} else {
+			return col % 2
+		}
+	}
+
+	renderBackground() {
+		let background = document.createElement('div')
+		background.classList.add('background')
+
+		for (let i = 0; i < config.size * 2; i++) {
+			let row = document.createElement('div')
+			row.classList.add('row')
+			for (let j = 0; j < config.size * 2; j++) {
+				let place = document.createElement('div')
+				place.classList.add('place')
+				if (this.isOddSquare(i, j)) {
+					place.classList.add('dark')
+				}
+				row.appendChild(place)
+			}
+			background.appendChild(row)
+		}
+
+		this.parent.appendChild(background)
+	}
+
+	renderPieces() {
+		let pieces = document.createElement('div')
+		pieces.classList.add('pieces')
 		for (let row of this.rows) {
-			let newRow = document.createElement('div')
-			newRow.classList.add('row')
-			for (let place of row) {
-				newRow.appendChild(place.el)
-			}
-			this.parent.appendChild(newRow)
-		}
-	}
-
-	clear() {
-		this.rows = []
-		for (let i = 0; i < config.rows; i++) {
-			this.rows.push([])
-			for (let j = 0; j < config.cols; j++) {
-				let place
-				place = new Place(i,j,0)
-				this.rows[i].push(place)
+			for (let piece of row) {
+				if (piece !== undefined) {
+					pieces.appendChild(piece.el)
+				}
 			}
 		}
+		this.parent.appendChild(pieces)
 	}
 
 	init() {
-		this.render()
+		this.parent.innerHTML = ''
+		this.createGrid()
+		this.renderBackground()
+		this.renderPieces()
 	}
 }

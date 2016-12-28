@@ -1,4 +1,7 @@
 $board-size: 4em;
+$background-light: #E3B371;
+$background-dark: #AB6533;
+$active-color: lime;
 
 body {
 	font-family: sans-serif;
@@ -9,9 +12,13 @@ p {
 }
 
 .board {
-	background: #D3A361;
-	margin: $board-size auto 0;
+	background: $background-light;
+	margin: $board-size / 2 auto 0;
 	width: $board-size * 10;
+	position: relative;
+	border: 0.5em solid $background-dark;
+	box-shadow: 0 0 10px darken($background-dark, 20%);
+	border-radius: 0.5em;
 }
 .selected {
 	z-index: 1000;
@@ -21,20 +28,47 @@ p {
 	width: $board-size;
 	height: $board-size;
 	float: left;
-	background: #D3A361;
+	background: $background-light;
 	position: relative;
 	&.dark {
-		background: saddlebrown;
+		background: $background-dark;
 	}
 }
 
+.pieces {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+}
 .piece {
 	border-radius: 50%;
-	width: 90%;
-	height: 90%;
+	width: $board-size - 0.4em;
+	height: $board-size - 0.4em;
 	position: absolute;
-	top: 5%;
-	left: 5%;
+	top: 0;
+	left: 0;
+	margin-top: 0.2em;
+	margin-left: 0.2em;
+	transition: transform 0.2s ease;
+	cursor: move;
+	cursor: grab;
+	box-shadow: 0 0 10px darken($background-dark, 20%);
+	&:active {
+		cursor: grabbing;
+	}
+	&:before {
+		opacity: 0;
+		transition: opacity 0.2s ease;
+		content: '';
+		position: absolute;
+		top: -0.2em;
+		left: -0.2em;
+		width: $board-size - 0.2em;
+		height: $board-size - 0.2em;
+		border: 0.1em solid $active-color;
+	}
 	&:after {
 		position: absolute;
 		top: 10%;
@@ -48,7 +82,7 @@ p {
 	&.black {
 		background: black;
 		&:after {
-			border-color: rgba(255,255,255,0.1);
+			border-color: rgba(255,255,255,0.2);
 		}
 	}
 	&.white {
@@ -56,5 +90,8 @@ p {
 		&:after {
 			border-color: rgba(0,0,0,0.1);
 		}
+	}
+	&:hover:before {
+		opacity: 1;
 	}
 }
