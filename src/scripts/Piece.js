@@ -1,3 +1,5 @@
+import { config } from './config.js'
+
 export default class Piece {
 	constructor(parent, row, col, color, type) {
 		this.parent = parent
@@ -11,7 +13,7 @@ export default class Piece {
 		let piece = document.createElement('div')
 		piece.classList.add('piece', this.color)
 		piece.addEventListener('click', () => {
-			console.log(this.possibleMoves())
+			console.log(this.possibleMoves)
 		})
 
 		let left = this.col * 8
@@ -23,12 +25,31 @@ export default class Piece {
 		parent.appendChild(piece)
 	}
 
-	possibleMoves() {
+	get possibleMoves() {
 		let moves = []
 		if (this.type === 1) {
+			let row
+
 			if (this.color === 'black') {
-				if (this.row + 1 === this.parent.rows) {
-					moves.push(this.row[3])
+				row = this.row - 1
+			} else {
+				row = this.row + 1
+			}
+
+			for (let i = this.col; i < this.col + 2; i++) {
+				if (i >= 0 && i < config.size) {
+					if (this.parent.rows[row][i] === undefined) {
+						moves.push({
+							row: row,
+							col: i
+						})
+					} else {
+						if (this.parent.rows[row][i].color === "white") {
+							console.log("white")
+						} else {
+							console.log("black")
+						}
+					}
 				}
 			}
 		}
