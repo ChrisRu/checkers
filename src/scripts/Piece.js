@@ -1,4 +1,5 @@
 import { config } from './config.js'
+import { $ } from './helpers.js'
 
 export default class Piece {
 	constructor(parent, row, col, color, type) {
@@ -13,7 +14,8 @@ export default class Piece {
 		let piece = document.createElement('div')
 		piece.classList.add('piece', this.color)
 		piece.addEventListener('click', () => {
-			console.log(this.possibleMoves)
+			this.clearMoves()
+			this.renderMoves()
 		})
 
 		let left = this.col * 8
@@ -23,6 +25,33 @@ export default class Piece {
 		piece.style.transform = `translate(${left}em, ${this.row * 4}em)`
 
 		parent.appendChild(piece)
+	}
+
+	clearMoves() {
+		const moves = document.querySelectorAll('.possible')
+		if (!moves) {
+			return;
+		}
+		for (let move of moves) {
+			move.parentNode.removeChild(move)
+		}
+	}
+
+	renderMoves() {
+		let moves = this.possibleMoves
+
+		for (let move of moves) {
+			let possible = document.createElement('div')
+			possible.classList.add('possible')
+
+			let left = move.col * 8
+			if ((this.row % 2)) {
+				left -= 4
+			}
+			possible.style.transform = `translate(${left}em, ${move.row * 4}em)`
+
+			$(".pieces").appendChild(possible)
+		}
 	}
 
 	get possibleMoves() {
@@ -37,8 +66,8 @@ export default class Piece {
 			}
 
 			for (let i = this.col; i < this.col + 2; i++) {
-				if (i >= 0 && i < config.size) {
-					if (this.parent.rows[row][i] === undefined) {
+				if (i - (this.row % 2) >= 0 && i < config.size + (this.row % 2)) {
+					if (!this.parent.rows[row][i]) {
 						moves.push({
 							row: row,
 							col: i
