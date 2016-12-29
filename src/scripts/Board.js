@@ -4,7 +4,6 @@ import Piece from './Piece.js'
 export default class Board {
 	constructor(parent) {
 		this.parent = parent
-		this.createGrid()
 	}
 
 	initPieces() {
