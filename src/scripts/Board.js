@@ -20,7 +20,6 @@ export default class Board {
 	}
 
 	createGrid() {
-		this.rows = []
 		for (let i = 0; i < config.size * 2; i++) {
 			this.rows.push([])
 			for (let j = 0; j < config.size; j++) {
@@ -72,8 +71,13 @@ export default class Board {
 		}
 	}
 
+	clear() {
+		this.rows = []
+	}
+
 	init() {
 		this.parent.innerHTML = ''
+		this.clear()
 		this.createGrid()
 		this.renderBackground()
 		this.renderPieces()
