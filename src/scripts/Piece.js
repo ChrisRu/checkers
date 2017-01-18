@@ -1,87 +1,84 @@
-import { config } from './config.js'
-import { $ } from './helpers.js'
+import config from './config.js';
+import { $ } from './helpers.js';
+import Possible from './Possible.js';
 
 export default class Piece {
-	constructor(parent, row, col, color, type) {
-		this.parent = parent
-		this.row = row
-		this.col = col
-		this.color = color
-		this.type = type
-	}
+    constructor(parent, row, col, color, type) {
+        this.parent = parent;
+        this.row = row;
+        this.col = col;
+        this.color = color;
+        this.type = type;
+        this.moves = [];
+        this.createElement();
+    }
 
-	render(parent) {
-		let piece = document.createElement('div')
-		piece.classList.add('piece', this.color)
-		piece.addEventListener('click', () => {
-			this.clearMoves()
-			this.renderMoves()
-		})
+    get calcPos() {
+        const y = this.row * config.size;
+        let x = this.col * config.size * 2;
+        if (!(this.row % 2)) {
+            x += config.size;
+        }
+        return {x, y};
+    }
 
-		let left = this.col * 8
-		if (!(this.row % 2)) {
-			left += 4
-		}
-		piece.style.transform = `translate(${left}em, ${this.row * 4}em)`
+    createElement() {
+        let piece = document.createElement('div');
+        piece.classList.add('piece', this.color);
+        this.element = piece;
+    }
 
-		parent.appendChild(piece)
-	}
+    render(storage) {
+        const pos = this.calcPos;
+        this.element.classList.remove('active');
+        this.element.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
+        storage.appendChild(this.element);
+    }
 
-	clearMoves() {
-		const moves = document.querySelectorAll('.possible')
-		if (!moves) {
-			return;
-		}
-		for (let move of moves) {
-			move.parentNode.removeChild(move)
-		}
-	}
+    moveTo(row, col) {
+        this.row = row;
+        this.col = col;
+        this.parent.clearMoves();
+        this.parent.renderPieces();
+    }
 
-	renderMoves() {
-		let moves = this.possibleMoves
+    renderMoves() {
+        this.parent.clearMoves();
+        let moves = this.possibleMoves();
 
-		for (let move of moves) {
-			let possible = document.createElement('div')
-			possible.classList.add('possible')
+        for (let move of moves) {
+            const possible = new Possible(this, move.row, move.col);
+            this.moves.push(possible);
+        
+            $('.pieces').appendChild(possible.render());
+        }
+    }
 
-			let left = move.col * 8
-			if ((this.row % 2)) {
-				left -= 4
-			}
-			possible.style.transform = `translate(${left}em, ${move.row * 4}em)`
+    possibleMoves() {
+        let moves = [];
+        if (this.type === 1) {
+            let row;
 
-			$(".pieces").appendChild(possible)
-		}
-	}
+            if (this.color === 'black') {
+                row = this.row - 1;
+            } else {
+                row = this.row + 1;
+            }
 
-	get possibleMoves() {
-		let moves = []
-		if (this.type === 1) {
-			let row
-
-			if (this.color === 'black') {
-				row = this.row - 1
-			} else {
-				row = this.row + 1
-			}
-
-			for (let i = this.col; i < this.col + 2; i++) {
-				if (i - (this.row % 2) >= 0 && i < config.size + (this.row % 2)) {
-					if (!this.parent.rows[row][i]) {
-						moves.push({
-							row: row,
-							col: i
-						})
-					} else {
-						if (this.parent.rows[row][i].color === "white") {
-							console.log("white")
-						} else {
-							console.log("black")
-						}
-					}
-				}
-			}
-		}
-		return moves
-	}
+            for (let i = this.col; i < this.col + 2; i++) {
+                if (i - this.row % 2 >= 0 && i < config.cols + this.row % 2) {
+                    if (!this.parent.rows[row][i]) {
+                        moves.push({ row: row, col: i });
+                    } else {
+                        if (this.parent.rows[row][i].color === 'white') {
+                            console.log('white');
+                        } else {
+                            console.log('black');
+                        }
+                    }
+                }
+            }
+        }
+        return moves;
+    }
 }

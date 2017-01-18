@@ -19,7 +19,7 @@
   },
   "scripts": {
     "build": "webpack -p",
-    "watch": "webpack-dev-server --inline --hot --colors --progress"
+    "watch": "webpack-dev-server --inline --hot --colors --progress --open"
   },
   "author": "Christian Ruigrok",
   "license": "ISC"

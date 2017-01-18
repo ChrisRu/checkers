@@ -1,3 +1,6 @@
-export const config = {
-	size: 5
-}
+const config = {
+    cols: 5,
+    size: 80
+};
+
+export default config;
