@@ -51,23 +51,19 @@ export default class Piece {
         const rows = this.parent.rows;
 
         // If on board
-        if (col >= 0 && col < config.cols) {
+        if (col >= 0 && col < config.size) {
 
             // If empty place
             if (typeof rows[row][col] === 'undefined') {
-                return { row, col };
+                return { row, col }; 
             } else {
 
+                const newRow = this.color === 'black' ? row - 1 : row + 1;
+                const newCol = this.col < col ? col + 1 : col - 1;
+
                 // If opposite piece
-                if (rows[row][col].color !== this.color) {
-                    // If black go up, if white go down
-                    const newRow = this.color === 'black' ? row - 1 : row + 1;
-                    // If new col is bigger than the piece, add 
-                    const newCol = this.col > col ? col + !(newRow % 2) : col - !(newRow % 2) + 1;
-                    console.log({ row: newRow, col: newCol });
-                    if (typeof rows[newRow][newCol] === 'undefined') {
-                        return { row: newRow, col: newCol };
-                    }
+                if (rows[row][col].color !== this.color && typeof rows[newRow][newCol] === 'undefined') {
+                    return { row: newRow, col: newCol };
                 }
             }
         }
@@ -76,13 +72,11 @@ export default class Piece {
     checkDirections(row, col) {
         let moves = [];
 
-        col += row % 2;
+        const NW = this.testMove(row, col - 1);
+        const NE = this.testMove(row, col + 1);
 
-        // North
-        for (let i = col - 1; i <= col; i++) {
-            const move = this.testMove(row, i);
-            typeof move !== 'undefined' && moves.push(move);
-        }
+        typeof NW !== 'undefined' && moves.push(NW);
+        typeof NE !== 'undefined' && moves.push(NE);
 
         return moves;
     }

@@ -1,6 +1,6 @@
 const config = {
-    cols: 5,
-    size: 80
+    scale: 80,
+    size: 10
 };
 
 export default config;

@@ -14,11 +14,8 @@ export function shuffle(array) {
 }
 
 export function calcPos(row, col) {
-    const y = row * config.size;
-    let x = col * config.size * 2;
-    if (!(row % 2)) {
-        x += config.size;
-    }
+    const y = row * config.scale;
+    let x = col * config.scale;
     return { x, y };
 }
 

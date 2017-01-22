@@ -62,8 +62,8 @@ p {
 		position: absolute;
 		top: -0.2em;
 		left: -0.2em;
-		width: $board-size * 0.9;
-		height: $board-size * 0.9;
+		width: $board-size * 0.96;
+		height: $board-size * 0.96;
 		border: 0.1em solid $active-color;
 	}
 	&:after {
@@ -95,6 +95,9 @@ p {
 		cursor: grabbing;
 		pointer-events: none;
 		transition-duration: 0.02s;
+		&:before {
+			opacity: 1;
+		}
 	}
 }
 
