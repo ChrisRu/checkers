@@ -1,8 +1,9 @@
 import config from './config.js';
 import Piece from './Piece.js';
+import { debounce } from './helpers.js';
 
 export default class Board {
-    constructor(element, size) {
+    constructor(element) {
         this.element = element;
     }
 
@@ -19,27 +20,28 @@ export default class Board {
     }
 
     setEventListeners() {
+        this.mouseMove = debounce((e) => {
+            this.drag = true;
+
+            const pos = {
+                x: e.clientX - this.element.offsetLeft - (this.activeElement.col + 1 * config.size) + config.size / 2.5,
+                y: e.clientY - this.element.offsetTop - config.size / 1.5
+            }
+
+            this.activeElement.element.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
+        }, 2);
         this.element.addEventListener('mousedown', e => {
             if (e.target.classList.contains('piece')) {
                 const pieces = this.allPieces.map(piece => piece.element);
                 this.setActiveElement(this.allPieces[pieces.indexOf(e.target)]);
-                console.log(this.activeElement);
             }
         });
-        document.body.addEventListener('mousemove', e => {
+        window.addEventListener('mousemove', e => {
             if (typeof this.activeElement !== 'undefined') {
-                this.drag = true;
-
-                const pos = {
-                    x: e.clientX - (this.activeElement.col + 1 * config.size * 11.5),
-                    y: e.clientY - config.size
-                }
-                console.log('calc');
-                console.log(pos.x);
-
-                this.activeElement.element.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
+                this.mouseMove(e);
             }
         });
+
         window.addEventListener('mouseup', e => {
             if (typeof this.activeElement !== 'undefined') {
                 this.activeElement.render(this.pieceStorage);
@@ -59,10 +61,10 @@ export default class Board {
         for (let i = 0; i < config.cols * 2; i++) {
             for (let j = 0; j < config.cols; j++) {
                 if (i < config.cols - 1) {
-                    this.rows[i][j] = new Piece(this, i, j, 'white', 1);
+                    this.rows[i][j] = new Piece(this, i, j, 'white', 'single');
                 }
                 if (i > config.cols) {
-                    this.rows[i][j] = new Piece(this, i, j, 'black', 1);
+                    this.rows[i][j] = new Piece(this, i, j, 'black', 'single');
                 }
             }
         }
@@ -71,6 +73,9 @@ export default class Board {
     createGrid() {
         for (let i = 0; i < config.cols * 2; i++) {
             this.rows.push([]);
+            for (let j = 0; j < config.cols; j++) {
+                this.rows[i].push(undefined);
+            }
         }
     }
 

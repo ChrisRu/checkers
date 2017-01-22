@@ -1,4 +1,5 @@
 import config from './config.js';
+import { calcPos } from './helpers.js';
 
 export default class Possible {
     constructor(parent, row, col) {
@@ -11,11 +12,8 @@ export default class Possible {
         let possible = document.createElement('div');
         possible.classList.add('possible');
 
-        let left = this.col * config.size * 2;
-        if ((this.row % 2) - 1) {
-            left -= config.size;
-        }
-        possible.style.transform = `translate(${left}px, ${this.row * config.size}px)`;
+        const pos = calcPos(this.row, this.col)
+        possible.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
         possible.addEventListener('click', () => {
             this.drag && this.click()
         });

@@ -51,7 +51,7 @@ p {
 	left: 0;
 	margin-top: $board-size * 0.05;
 	margin-left: $board-size * 0.05;
-	transition: transform 0.02s ease;
+	transition: transform 0.2s ease;
 	cursor: move;
 	cursor: grab;
 	box-shadow: 0 0 10px darken($background-dark, 20%);
@@ -94,6 +94,7 @@ p {
 	&.active {
 		cursor: grabbing;
 		pointer-events: none;
+		transition-duration: 0.02s;
 	}
 }
 
