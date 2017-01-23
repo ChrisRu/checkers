@@ -31,6 +31,7 @@ export default class Piece {
         this.row = row;
         this.col = col;
         this.parent.rows[this.row][this.col] = this;
+        this.parent.lastMoveColor = this.color;
         this.parent.clearMoves();
         this.parent.renderPieces();
     }
@@ -59,7 +60,7 @@ export default class Piece {
             } else {
 
                 const newRow = this.color === 'black' ? row - 1 : row + 1;
-                const newCol = this.col < col ? col + 1 : col - 1;
+                const newCol = this.col < col         ? col + 1 : col - 1;
 
                 // If opposite piece
                 if (rows[row][col].color !== this.color && typeof rows[newRow][newCol] === 'undefined') {

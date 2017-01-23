@@ -5,6 +5,7 @@ import { debounce } from './helpers.js';
 export default class Board {
     constructor(element) {
         this.element = element;
+        this.lastMoveColor = 'black';
     }
 
     get allPieces() {
@@ -33,7 +34,11 @@ export default class Board {
         this.element.addEventListener('mousedown', e => {
             if (e.target.classList.contains('piece')) {
                 const pieces = this.allPieces.map(piece => piece.element);
-                this.setActiveElement(this.allPieces[pieces.indexOf(e.target)]);
+                const piece = this.allPieces[pieces.indexOf(e.target)];
+                console.log(piece.color, this.lastMoveColor);
+                if (piece.color !== this.lastMoveColor) {
+                    this.setActiveElement(piece);
+                }
             }
         });
         window.addEventListener('mousemove', e => {
