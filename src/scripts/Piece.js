@@ -43,7 +43,7 @@ export default class Piece {
         for (let move of moves) {
             this.moves.push(new Possible(this, move.row, move.col));
         }
-        this.moves.map(e => e.render(storage));
+        this.moves.map(e => e.render(this.parent.pieceStorage));
     }
 
     testMove(row, col) {

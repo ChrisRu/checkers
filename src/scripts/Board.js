@@ -27,24 +27,19 @@ export default class Board {
     }
 
     initPieces() {
-        this.rows = Array(config.size)
-            .fill(Array(config.size)
-                .fill(undefined));
-        
+        this.rows = [];        
         for (let i = 0; i < config.size; i++) {
+            this.rows.push([]);
             for (let j = (i + 1) % 2; j < config.size; j += 2) {
                 if (i < config.size / 2 - 1) {
                     this.rows[i][j] = new Piece(this, i, j, 'white', 'single');
-                    console.log('white');
                 } else if (i > config.size / 2) {
                     this.rows[i][j] = new Piece(this, i, j, 'black', 'single');
-                    console.log('black');
                 } else {
-                    console.log('empty')
+                    this.rows[i][j] = undefined;
                 }
             }
         }
-        console.log(this.rows);
     }
 
     isOddSquare(row, col) {
@@ -84,7 +79,8 @@ export default class Board {
     }
 
     clearMoves() {
-        const moves = document.querySelectorAll('.possible');
+        // Spread because querySelectorAll returns a StaticNodeList and not an array
+        const moves = [...document.querySelectorAll('.possible')];
         if (moves.length <= 0) {
             return;
         }

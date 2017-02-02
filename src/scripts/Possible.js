@@ -20,7 +20,7 @@ export default class Possible {
         possible.addEventListener('mouseup', () => {
             !this.drag && this.click()
         });
-        storage.appendChild(this.element);
+        storage.appendChild(possible);
     }
 
     click() {
