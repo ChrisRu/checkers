@@ -8,7 +8,7 @@ export default class Possible {
         this.col = col;
     }
 
-    render() {
+    render(storage) {
         let possible = document.createElement('div');
         possible.classList.add('possible');
 
@@ -20,7 +20,7 @@ export default class Possible {
         possible.addEventListener('mouseup', () => {
             !this.drag && this.click()
         });
-        return possible;
+        storage.appendChild(this.element);
     }
 
     click() {

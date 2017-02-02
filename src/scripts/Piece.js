@@ -41,11 +41,9 @@ export default class Piece {
         let moves = this.possibleMoves();
 
         for (let move of moves) {
-            const possible = new Possible(this, move.row, move.col);
-            this.moves.push(possible);
-        
-            $('.pieces').appendChild(possible.render());
+            this.moves.push(new Possible(this, move.row, move.col));
         }
+        this.moves.map(e => e.render(storage));
     }
 
     testMove(row, col) {
@@ -56,15 +54,17 @@ export default class Piece {
 
             // If empty place
             if (typeof rows[row][col] === 'undefined') {
-                return { row, col }; 
+                return { row, col };
             } else {
 
                 const newRow = this.color === 'black' ? row - 1 : row + 1;
-                const newCol = this.col < col         ? col + 1 : col - 1;
+                const newCol = this.col < col ? col + 1 : col - 1;
 
                 // If opposite piece
-                if (rows[row][col].color !== this.color && typeof rows[newRow][newCol] === 'undefined') {
-                    return { row: newRow, col: newCol };
+                if (newCol >= 0 && newCol < config.size) {
+                    if (rows[row][col].color !== this.color && typeof rows[newRow][newCol] === 'undefined') {
+                        return { row: newRow, col: newCol };
+                    }
                 }
             }
         }
